@@ -4,6 +4,15 @@ Changelog
 master
 ------------------
 
+* **#322: dropping support for python 2.6 and django 1.4, 1.5, 1.6**
+* #249: Added a command to clean expired tokens
+* #323: Application registration view uses custom application model in form class
+* #299: 'server_class' is now pluggable through Django settings
+* #309: Add the py35-django19 env to travis
+* #308: Use compact syntax for tox envs
+* #306: Django 1.9 compatibility
+* #288: Put additional information when generating token responses
+* #297: Fixed doc about SessionAuthenticationMiddleware
 * #273: Generic read write scope by resource
 
 
