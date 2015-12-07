@@ -37,8 +37,8 @@ guidelines <https://django-oauth-toolkit.readthedocs.org/en/latest/contributing.
 Requirements
 ------------
 
-* Python 2.6, 2.7, 3.3, 3.4
-* Django 1.4, 1.5, 1.6, 1.7, 1.8
+* Python 2.7, 3.2, 3.3, 3.4, 3.5
+* Django 1.7, 1.8, 1.9
 
 Installation
 ------------
@@ -90,6 +90,15 @@ Changelog
 master
 ~~~~~~~~~~~~~~~~~~
 
+* **#322: dropping support for python 2.6 and django 1.4, 1.5, 1.6**
+* #249: Added a command to clean expired tokens
+* #323: Application registration view uses custom application model in form class
+* #299: 'server_class' is now pluggable through Django settings
+* #309: Add the py35-django19 env to travis
+* #308: Use compact syntax for tox envs
+* #306: Django 1.9 compatibility
+* #288: Put additional information when generating token responses
+* #297: Fixed doc about SessionAuthenticationMiddleware
 * #273: Generic read write scope by resource
 
 0.9.0 [2015-07-28]

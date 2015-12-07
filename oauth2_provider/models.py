@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
+from datetime import timedelta
+
 from django.core.urlresolvers import reverse
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 
 from django.utils.translation import ugettext_lazy as _
@@ -219,6 +221,13 @@ class AccessToken(models.Model):
         """
         self.delete()
 
+    @property
+    def scopes(self):
+        """
+        Returns a dictionary of allowed scope names (as keys) with their descriptions (as values)
+        """
+        return {name: desc for name, desc in oauth2_settings.SCOPES.items() if name in self.scope.split()}
+
     def __str__(self):
         return self.token
 
@@ -266,3 +275,24 @@ def get_application_model():
         e = "APPLICATION_MODEL refers to model {0} that has not been installed"
         raise ImproperlyConfigured(e.format(oauth2_settings.APPLICATION_MODEL))
     return app_model
+
+
+def clear_expired():
+    now = timezone.now()
+    refresh_expire_at = None
+
+    REFRESH_TOKEN_EXPIRE_SECONDS = oauth2_settings.REFRESH_TOKEN_EXPIRE_SECONDS
+    if REFRESH_TOKEN_EXPIRE_SECONDS:
+        if not isinstance(REFRESH_TOKEN_EXPIRE_SECONDS, timedelta):
+            try:
+                REFRESH_TOKEN_EXPIRE_SECONDS = timedelta(seconds=REFRESH_TOKEN_EXPIRE_SECONDS)
+            except TypeError:
+                e = "REFRESH_TOKEN_EXPIRE_SECONDS must be either a timedelta or seconds"
+                raise ImproperlyConfigured(e)
+        refresh_expire_at = now - REFRESH_TOKEN_EXPIRE_SECONDS
+
+    with transaction.atomic():
+        if refresh_expire_at:
+            RefreshToken.objects.filter(access_token__expires__lt=refresh_expire_at).delete()
+        AccessToken.objects.filter(refresh_token__isnull=True, expires__lt=now).delete()
+        Grant.objects.filter(expires__lt=now).delete()

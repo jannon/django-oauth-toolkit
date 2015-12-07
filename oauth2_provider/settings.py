@@ -33,6 +33,7 @@ DEFAULTS = {
     'CLIENT_ID_GENERATOR_CLASS': 'oauth2_provider.generators.ClientIdGenerator',
     'CLIENT_SECRET_GENERATOR_CLASS': 'oauth2_provider.generators.ClientSecretGenerator',
     'CLIENT_SECRET_GENERATOR_LENGTH': 128,
+    'OAUTH2_SERVER_CLASS': 'oauthlib.oauth2.Server',
     'OAUTH2_VALIDATOR_CLASS': 'oauth2_provider.oauth2_validators.OAuth2Validator',
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.OAuthLibCore',
     'SCOPES': {"read": "Reading scope", "write": "Writing scope"},
@@ -40,6 +41,7 @@ DEFAULTS = {
     'WRITE_SCOPE': 'write',
     'AUTHORIZATION_CODE_EXPIRE_SECONDS': 60,
     'ACCESS_TOKEN_EXPIRE_SECONDS': 36000,
+    'REFRESH_TOKEN_EXPIRE_SECONDS': None,
     'APPLICATION_MODEL': getattr(settings, 'OAUTH2_PROVIDER_APPLICATION_MODEL', 'oauth2_provider.Application'),
     'REQUEST_APPROVAL_PROMPT': 'force',
     'ALLOWED_REDIRECT_URI_SCHEMES': ['http', 'https'],
@@ -52,6 +54,7 @@ DEFAULTS = {
 MANDATORY = (
     'CLIENT_ID_GENERATOR_CLASS',
     'CLIENT_SECRET_GENERATOR_CLASS',
+    'OAUTH2_SERVER_CLASS',
     'OAUTH2_VALIDATOR_CLASS',
     'OAUTH2_BACKEND_CLASS',
     'SCOPES',
@@ -62,6 +65,7 @@ MANDATORY = (
 IMPORT_STRINGS = (
     'CLIENT_ID_GENERATOR_CLASS',
     'CLIENT_SECRET_GENERATOR_CLASS',
+    'OAUTH2_SERVER_CLASS',
     'OAUTH2_VALIDATOR_CLASS',
     'OAUTH2_BACKEND_CLASS',
 )

@@ -59,6 +59,11 @@ CLIENT_SECRET_GENERATOR_LENGTH
 The length of the generated secrets, in characters. If this value is too low,
 secrets may become subject to bruteforce guessing.
 
+OAUTH2_SERVER_CLASS
+~~~~~~~~~~~~~~~~~~~~
+The import string for the ``server_class`` (or ``oauthlib.oauth2.Server`` subclass)
+used in the ``OAuthLibMixin`` that implements OAuth2 grant types.
+
 OAUTH2_VALIDATOR_CLASS
 ~~~~~~~~~~~~~~~~~~~~~~
 The import string of the ``oauthlib.oauth2.RequestValidator`` subclass that
@@ -80,6 +85,19 @@ The name of the *read* scope.
 WRITE_SCOPE
 ~~~~~~~~~~~
 The name of the *write* scope.
+
+REFRESH_TOKEN_EXPIRE_SECONDS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The number of seconds before a refresh token gets removed from the database by
+the ``cleartokens``` management command. It's important that ``cleartokens``
+runs regularly (eg: via cron) in order for this setting to work.
+
+If ``cleartokens`` runs daily the maximum delay before a refresh token is
+removed is ``REFRESH_TOKEN_EXPIRE_SECONDS`` + 1 day. This is normally not a
+problem since refresh tokens are long lived.
+
+Note: Refresh tokens need to expire before AccessTokens can be removed from the
+database. Using ``cleartokens`` without ``REFRESH_TOKEN_EXPIRE_SECONDS`` has limited effect.
 
 REQUEST_APPROVAL_PROMPT
 ~~~~~~~~~~~~~~~~~~~~~~~

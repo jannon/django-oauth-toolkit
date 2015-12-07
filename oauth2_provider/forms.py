@@ -1,9 +1,5 @@
 from django import forms
 
-from .models import get_application_model
-
-Application = get_application_model()
-
 
 class AllowForm(forms.Form):
     allow = forms.BooleanField(required=False)
@@ -19,12 +15,3 @@ class AllowForm(forms.Form):
         if data and 'scopes' in data:
             data['scope'] = data['scopes']
         return super(AllowForm, self).__init__(*args, **kwargs)
-
-
-class RegistrationForm(forms.ModelForm):
-    """
-    TODO: add docstring
-    """
-    class Meta:
-        model = Application
-        fields = ('name', 'client_id', 'client_secret', 'client_type', 'authorization_grant_type', 'redirect_uris')
